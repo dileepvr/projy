@@ -3,7 +3,7 @@
 
 #+OPTIONS:  date:nil email:nil H:2 num:t toc:nil
 #+EXPORT_EXCLUDE_TAGS: noexport
-#+CALL: update_org_latex_classes()
+#+CALL: startup()
 
 #+LaTeX_CLASS: osa-article
 # Select the journal you're submitting to
@@ -135,7 +135,7 @@ bibliography:$project.bib
 
 * =elisp= code to execute at least once before export              :noexport:
 
-  #+NAME: update_org_latex_classes
+  #+NAME: startup
   #+begin_src emacs-lisp :results silent :exports none
   ;; Add a new export class for osa-article
     (require 'ox-latex)
@@ -211,6 +211,12 @@ holding export options."
      "\\end{document}")))
 
     (setq org-latex-image-default-width ".62\\linewidth")
+
+    ;; pubpaper-base-dir change in org-publish-project-alist
+    (plist-put (cdr (assoc "manuscript" org-publish-project-alist)) ':base-directory (directory-file-name (file-name-directory buffer-file-name)))
+    (plist-put (cdr (assoc "manuscript" org-publish-project-alist)) ':publishing-directory (concat (file-name-directory buffer-file-name) "submit"))
+    (plist-put (cdr (assoc "miscfiles" org-publish-project-alist)) ':base-directory (directory-file-name (file-name-directory buffer-file-name)))
+    (plist-put (cdr (assoc "miscfiles" org-publish-project-alist)) ':publishing-directory (concat (file-name-directory buffer-file-name) "submit"))
 
     (print "")
   #+end_src
