@@ -9,5 +9,6 @@
 *.fdb_*
 *~
 submit/
+pdfout/
 $project.pdf
 $project.tex

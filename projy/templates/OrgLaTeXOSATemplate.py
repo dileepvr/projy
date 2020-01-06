@@ -21,7 +21,6 @@ class OrgLaTeXOSATemplate(ProjyTemplate):
         """ Return the names of directories to be created. """
         directories_description = [
             self.project_name,
-            self.project_name + '/submit',
             self.project_name + '/styles',
         ]
         return directories_description
