@@ -138,10 +138,10 @@ class ProjyTemplate:
     def make_posthook(self):
         """ Run the post hook into the project directory. """
         print(id(self.posthook), self.posthook)
-        print(id(super(self.__class__, self).posthook), super(self.__class__, self).posthook)
-        import ipdb;ipdb.set_trace()
+        # print(id(super(self.__class__, self).posthook), super(self.__class__, self).posthook)
+        # import ipdb; ipdb.set_trace()
         if self.posthook:
-            os.chdir(self.project_name) # enter the project main directory
+            os.chdir(self.project_name)  # enter the project main directory
             self.posthook()
 
 
@@ -170,7 +170,6 @@ class ProjyTemplate:
         """ A simple equivalent of the well known shell 'touch' command. """
         with file(filename, 'a'):
             os.utime(filename, None)
-
 
     def posthook(self):
         """ Empty post-hook, to be inherited. """

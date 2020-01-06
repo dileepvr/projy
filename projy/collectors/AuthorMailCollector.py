@@ -7,6 +7,7 @@
 
 # system
 import getpass
+import locale
 import os
 import socket
 from subprocess import Popen, PIPE, CalledProcessError
@@ -24,11 +25,12 @@ class AuthorMailCollector(Collector):
     def author_mail_from_git(self):
         """ Get the author mail from git information. """
         try:
+            encoding = locale.getdefaultlocale()[1]
             # launch git command and get answer
             cmd = Popen(["git", "config", "--get", "user.email"], stdout=PIPE)
             stdoutdata = cmd.communicate()
             if (stdoutdata[0]):
-                self.author_mail = stdoutdata[0].rstrip(os.linesep)
+                self.author_mail = stdoutdata[0].decode(encoding).rstrip(os.linesep)
         except ImportError:
             pass
         except CalledProcessError:

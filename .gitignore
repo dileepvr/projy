@@ -1,3 +1,6 @@
 stable_requirements.txt
 venv/
 *.pyc
+.installed.cfg
+*.egg-info
+**~

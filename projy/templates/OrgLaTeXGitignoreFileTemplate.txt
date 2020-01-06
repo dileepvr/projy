@@ -1,0 +1,13 @@
+*.aux
+*.bbl
+*.idx
+*.ind
+*.lof
+*.lot
+*.out
+*.toc
+*.fdb_*
+*~
+submit/
+$project.pdf
+$project.tex

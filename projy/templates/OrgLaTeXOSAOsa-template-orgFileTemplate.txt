@@ -1,0 +1,216 @@
+#+TITLE: Universal manuscript template for OSA journals
+#+AUTHOR: $author\authormark{1,*}, Author Two\authormark{2}, and Author Three\authormark{2,3}
+
+#+OPTIONS:  date:nil email:nil H:2 num:t toc:nil
+#+EXPORT_EXCLUDE_TAGS: noexport
+#+CALL: update_org_latex_classes()
+
+#+LaTeX_CLASS: osa-article
+# Select the journal you're submitting to
+# oe, boe, ome, osac, osajournal
+#+LaTeX_HEADER: \journal{osac}
+
+# Key:
+# Express journals must have the correct journal selected:
+# {oe} Optics Express
+# {boe} Biomedical Optics Express
+# {ome} Optical Material Express
+# {osac} OSAC Continuum
+# Other OSA journals may use:
+# {osajournal} Applied Optics, Advances in Optics and Photonics, Journal of the Optical Society of America A/B, Optics Letters, Optica, Photonics Research
+
+# Uncomment if submitting to Photonics Research.
+# ONLY APPLICABLE FOR \journal{osajournal}
+# #+LaTeX_HEADER: \setprjcopyright
+
+# Set the article type
+#+LaTeX_HEADER: \articletype{Research Article}
+# Note that article type is not required for Express journals (OE, BOE, OME and OSAC)
+
+#+begin_export latex
+\address{\authormark{1}Peer Review, Publications Department, The Optical Society (OSA), 2010 Massachusetts Avenue NW, Washington, DC 20036, USA\\
+\authormark{2}Publications Department, The Optical Society (OSA), 2010 Massachusetts Avenue NW, Washington, DC 20036, USA\\
+\authormark{3}Currently with the Department of Electronic Journals, The Optical Society (OSA), 2010 Massachusetts Avenue NW, Washington, DC 20036, USA}
+\email{\authormark{*}$author_email}
+
+% \homepage{http:...} %% author's URL, if desired
+
+%%%%%%%%%%%%%%%%%%% abstract %%%%%%%%%%%%%%%%
+%% [use \begin{abstract*}...\end{abstract*} if exempt from copyright]
+#+end_export
+
+#+BEGIN_abstract
+\LaTeX{} manuscripts submitted to OSA journals as of 30 May 2018 may use
+these instructions and this new single-column universal template format.
+Note that the final publishing format of OSA journals is not changing at
+this time, and authors will still need to adhere to article-length
+restrictions based on the final publishing format (which for some journals
+is two columns). Authors of Optics Letters articles and Optica letters and
+memoranda should continue using the legacy template for an accurate length
+check. Please note that OSA is no longer using OCIS codes.
+#+END_abstract
+
+#+LaTeX: %%%%%%%%%%%%%%%%%%%%%%%%%%  body  %%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+* Introduction
+Adherence to the specifications listed in this template is essential for
+efficient review and publication of submissions. Proper reference format is
+especially important, as are acknowledgments (see Section [[#sec:ack]]). $\etaup$
+
+* Figures, and supplemental materials
+
+OSA journals allow authors to include supplementary materials as integral
+parts of a manuscript. Such materials are subject to peer-review procedures
+along with the rest of the paper and should be uploaded and described using
+OSA's Prism manuscript system. Please see the
+[[http://www.osapublishing.org/submit/style/multimedia.cfm][Author Guidelines for Supplementary Materials in OSA Journals]] for further
+information.
+
+Supplementary materials must be associated with a figure, table, or
+equation, OR be referenced in the results section of the manuscript. Please
+note that to create text color for supplementary materials links, use of
+the command\\
+=\textcolor{urlblue}{Visualization 1}= is preferred to using the command\\
+=\url{Visualization 1}=.
+
+* Mathematical and scientific notation
+
+Displayed equations should be centered. Equation numbers should appear at
+the right-hand margin, in parentheses:
+#+begin_export latex
+\begin{equation}
+J(\rho) =
+ \frac{\gamma^2}{2} \; \sum_{k({\rm even}) = -\infty}^{\infty}
+	\frac{(1 + k \tau)}{ \left[ (1 + k \tau)^2 + (\gamma  \rho)^2  \right]^{3/2} }.\label{eq1}
+\end{equation}
+#+end_export
+
+All equations should be numbered in the order in which they appear
+and should be referenced  from within the main text as Eq. eqref:eq1,
+Eq. (2), and so on [or as inequality eqref:eq1, etc., as appropriate].
+
+* Funding
+  :PROPERTIES:
+  :UNNUMBERED: t
+  :END:
+Please identify all appropriate funding sources by name and contract
+number. Funding information should be listed in a separate block preceding
+any acknowledgments. List only the funding agencies and any associated
+grants or project numbers, as shown in the example below:\\
+\\
+\noindent National Science Foundation (NSF) (1253236, 0868895, 1222301);
+Program 973 (2014AA014402); Natural National Science Foundation (NSFC)
+(123456).\\
+\\
+\noindent OSA participates in [[https://www.crossref.org/fundingdata/][Crossref's Funding Data]], a service that
+provides a standard way to report funding sources for published scholarly
+research. To ensure consistency, please enter any funding agencies and
+contract numbers from the Funding section in Prism during submission or
+revisions.
+
+* Acknowledgments
+  :PROPERTIES:
+  :UNNUMBERED: t
+  :CUSTOM_ID: sec:ack
+  :END:
+Acknowledgments, if included, should appear at the end of the document. The
+section title should not be numbered.
+
+* Conclusion
+After proofreading the manuscript, compress your .tex manuscript file and
+all figures (which should be in EPS or PDF format) in a ZIP, TAR or
+TAR-GZIP package. All files must be referenced at the root level (e.g.,
+file =figure-1.eps=, not =/myfigs/figure-1.eps=). If there are
+supplementary materials, the associated files should not be included in
+your manuscript archive but be uploaded separately through the Prism
+interface.
+
+#+LaTeX: %%%%%%%%%%%%%%%%%%%%%%% References %%%%%%%%%%%%%%%%%%%%%%%%%
+Add references with BibTeX or manually.
+cite:Zhang:14,testthesis
+
+#+LaTeX: %%%%%%%%%% If using BibTeX:
+bibliography:$project.bib
+
+* =elisp= code to execute at least once before export              :noexport:
+
+  #+NAME: update_org_latex_classes
+  #+begin_src emacs-lisp :results silent :exports none
+  ;; Add a new export class for osa-article
+    (require 'ox-latex)
+    (add-to-list 'org-latex-classes
+                 '("osa-article"
+                   "\\documentclass{osa-article}
+                    [NO-DEFAULT-PACKAGES]
+                    [EXTRA]"
+                   ("\\section{%s}" . "\\section*{%s}")
+                   ("\\subsection{%s}" . "\\subsection*{%s}")
+                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+(defun org-latex-template (contents info)
+  "Return complete document string after LaTeX conversion.
+CONTENTS is the transcoded contents string.  INFO is a plist
+holding export options."
+  (let ((title (org-export-data (plist-get info :title) info))
+	(spec (org-latex--format-spec info)))
+    (concat
+     ;; Time-stamp.
+     (and (plist-get info :time-stamp-file)
+	  (format-time-string "%% Created %Y-%m-%d %a %H:%M\n"))
+     ;; LaTeX compiler.
+     (org-latex--insert-compiler info)
+     ;; Document class and packages.
+     (org-latex-make-preamble info)
+     ;; Hyperref options.
+     (let ((template (plist-get info :latex-hyperref-template)))
+       (and (stringp template)
+            (format-spec template spec)))
+     ;; Possibly limit depth for headline numbering.
+     (let ((sec-num (plist-get info :section-numbers)))
+       (when (integerp sec-num)
+	 (format "\\setcounter{secnumdepth}{%d}\n" sec-num)))
+     ;; Document start.
+     "\\begin{document}\n\n"
+     ;; Title and subtitle.
+     (let* ((subtitle (plist-get info :subtitle))
+	    (formatted-subtitle
+	     (when subtitle
+	       (format (plist-get info :latex-subtitle-format)
+		       (org-export-data subtitle info))))
+	    (separate (plist-get info :latex-subtitle-separate)))
+       (concat
+	(format "\\title{%s%s}\n" title
+		(if separate "" (or formatted-subtitle "")))
+	(when (and separate subtitle)
+	  (concat formatted-subtitle "\n"))))
+     ;; Author.
+     (let ((author (and (plist-get info :with-author)
+			(let ((auth (plist-get info :author)))
+			  (and auth (org-export-data auth info)))))
+     (addr (org-export-data (plist-get info :address) info))
+	   (email (and (plist-get info :with-email)
+		       (org-export-data (plist-get info :email) info))))
+       (cond ((and author email (not (string= "" email)))
+	      (format "\\author{%s}\\email{\\authormark{\*}%s}\n" author email))
+	     ((or author email) (format "\\author{%s}\n" (or author email)))))
+     ;; Table of contents.
+     (let ((depth (plist-get info :with-toc)))
+       (when depth
+	 (concat (when (integerp depth)
+		   (format "\\setcounter{tocdepth}{%d}\n" depth))
+		 (plist-get info :latex-toc-command))))
+     ;; Document's body.
+     contents
+     ;; Creator.
+     (and (plist-get info :with-creator)
+	  (concat (plist-get info :creator) "\n"))
+     ;; Document end.
+     "\\end{document}")))
+
+    (setq org-latex-image-default-width ".62\\linewidth")
+
+    (print "")
+  #+end_src
