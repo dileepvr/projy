@@ -74,6 +74,18 @@ the command\\
 =\textcolor{urlblue}{Visualization 1}= is preferred to using the command\\
 =\url{Visualization 1}=.
 
+#+begin_src python :exports results :results raw :session $project
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+f = plt.figure()
+plt.plot(range(10), range(10), "o")
+f.savefig("test.pdf", bbox_inches='tight')
+'#+attr_latex: :placement [h!] :width 0.5\linewidth\
+\n#+caption: \label{figref_test} Test Caption\
+\n[[./test.pdf]]'
+#+end_src
+
 * Mathematical and scientific notation
 
 Displayed equations should be centered. Equation numbers should appear at
@@ -131,24 +143,27 @@ Add references with BibTeX or manually.
 cite:Zhang:14,testthesis
 
 #+LaTeX: %%%%%%%%%% If using BibTeX:
+# bibliography:~/Documents/academic/bibliography/references.bib
 bibliography:$project.bib
 
 * =elisp= code to execute at least once before export              :noexport:
 
-  #+NAME: startup
-  #+begin_src emacs-lisp :results silent :exports none
-  ;; Add a new export class for osa-article
-    (require 'ox-latex)
-    (add-to-list 'org-latex-classes
-                 '("osa-article"
-                   "\\documentclass{osa-article}
-                    [NO-DEFAULT-PACKAGES]
-                    [EXTRA]"
-                   ("\\section{%s}" . "\\section*{%s}")
-                   ("\\subsection{%s}" . "\\subsection*{%s}")
-                   ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
-                   ("\\paragraph{%s}" . "\\paragraph*{%s}")
-                   ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+#+NAME: startup
+#+begin_src emacs-lisp :results silent :exports none :session $project
+;; Initiate python virtual environment
+(pyvenv-workon "$virtual_env")
+;; Add a new export class for osa-article
+  (require 'ox-latex)
+  (add-to-list 'org-latex-classes
+               '("osa-article"
+                 "\\documentclass{osa-article}
+                  [NO-DEFAULT-PACKAGES]
+                  [EXTRA]"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
 
 (defun org-latex-template (contents info)
   "Return complete document string after LaTeX conversion.
@@ -210,13 +225,13 @@ holding export options."
      ;; Document end.
      "\\end{document}")))
 
-    (setq org-latex-image-default-width ".62\\linewidth")
+(setq org-latex-image-default-width ".62\\linewidth")
 
-    ;; pubpaper-base-dir change in org-publish-project-alist
-    (plist-put (cdr (assoc "manuscript" org-publish-project-alist)) ':base-directory (directory-file-name (file-name-directory buffer-file-name)))
-    (plist-put (cdr (assoc "manuscript" org-publish-project-alist)) ':publishing-directory (concat (file-name-directory buffer-file-name) "submit"))
-    (plist-put (cdr (assoc "miscfiles" org-publish-project-alist)) ':base-directory (directory-file-name (file-name-directory buffer-file-name)))
-    (plist-put (cdr (assoc "miscfiles" org-publish-project-alist)) ':publishing-directory (concat (file-name-directory buffer-file-name) "submit"))
+;; pubpaper-base-dir change in org-publish-project-alist
+(plist-put (cdr (assoc "manuscript" org-publish-project-alist)) ':base-directory (directory-file-name (file-name-directory buffer-file-name)))
+(plist-put (cdr (assoc "manuscript" org-publish-project-alist)) ':publishing-directory (concat (file-name-directory buffer-file-name) "submit"))
+(plist-put (cdr (assoc "miscfiles" org-publish-project-alist)) ':base-directory (directory-file-name (file-name-directory buffer-file-name)))
+(plist-put (cdr (assoc "miscfiles" org-publish-project-alist)) ':publishing-directory (concat (file-name-directory buffer-file-name) "submit"))
 
-    (print "")
-  #+end_src
+(print "")
+#+end_src

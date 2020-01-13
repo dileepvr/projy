@@ -3,6 +3,7 @@
 
 # system
 import subprocess
+import os
 from datetime import date
 # parent class
 from projy.templates.ProjyTemplate import ProjyTemplate
@@ -101,6 +102,7 @@ class OrgLaTeXOSATemplate(ProjyTemplate):
             date=date.today().isoformat(),
             author=author_collector.collect(),
             author_email=mail_collector.collect(),
+            virtual_env=os.environ['VIRTUAL_ENV'].split('/')[-1],
         )
         return substitutes_dict
 
