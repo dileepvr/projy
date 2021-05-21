@@ -102,6 +102,23 @@ All equations should be numbered in the order in which they appear
 and should be referenced  from within the main text as Eq. eqref:eq1,
 Eq. (2), and so on [or as inequality eqref:eq1, etc., as appropriate].
 
+* Conclusion
+After proofreading the manuscript, compress your .tex manuscript file and
+all figures (which should be in EPS or PDF format) in a ZIP, TAR or
+TAR-GZIP package. All files must be referenced at the root level (e.g.,
+file =figure-1.eps=, not =/myfigs/figure-1.eps=). If there are
+supplementary materials, the associated files should not be included in
+your manuscript archive but be uploaded separately through the Prism
+interface.
+
+#+LaTeX: %%%%%%%%%%%%%%%%%%%%%%% References %%%%%%%%%%%%%%%%%%%%%%%%%
+Add references with BibTeX or manually.
+cite:Zhang:14,testthesis
+
+#+LaTeX: %%%%%%%%%% If using BibTeX:
+# bibliography:~/Documents/academic/bibliography/references.bib
+bibliography:$project.bib
+
 * Funding
   :PROPERTIES:
   :UNNUMBERED: t
@@ -129,22 +146,24 @@ revisions.
 Acknowledgments, if included, should appear at the end of the document. The
 section title should not be numbered.
 
-* Conclusion
-After proofreading the manuscript, compress your .tex manuscript file and
-all figures (which should be in EPS or PDF format) in a ZIP, TAR or
-TAR-GZIP package. All files must be referenced at the root level (e.g.,
-file =figure-1.eps=, not =/myfigs/figure-1.eps=). If there are
-supplementary materials, the associated files should not be included in
-your manuscript archive but be uploaded separately through the Prism
-interface.
+* Disclosures
+  :PROPERTIES:
+  :UNNUMBERED: t
+  :END:
 
-#+LaTeX: %%%%%%%%%%%%%%%%%%%%%%% References %%%%%%%%%%%%%%%%%%%%%%%%%
-Add references with BibTeX or manually.
-cite:Zhang:14,testthesis
+Disclosures should be listed in a separate nonnumbered section at the end
+of the manuscript. List the Disclosures codes identified on OSA's [[http://www.osapublishing.org/submit/review/conflicts-interest-policy.cfm][Conflict
+of Interest policy page]], as shown in the examples below:
 
-#+LaTeX: %%%%%%%%%% If using BibTeX:
-# bibliography:~/Documents/academic/bibliography/references.bib
-bibliography:$project.bib
+#+begin_export latex
+\medskip
+
+\noindent ABC: 123 Corporation (I,E,P), DEF: 456 Corporation (R,S). GHI: 789 Corporation (C).
+
+\medskip
+
+\noindent If there are no disclosures, then list ``The authors declare no conflicts of interest.''
+#+end_export
 
 * =elisp= code to execute at least once before export              :noexport:
 
